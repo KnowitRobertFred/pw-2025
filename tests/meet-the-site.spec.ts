@@ -1,5 +1,4 @@
 import { test, expect } from '@playwright/test';
-import exp from 'constants';
 import path from 'path';
 
 test.describe('Practice software testing', () => {
@@ -55,12 +54,22 @@ test.describe('Practice software testing', () => {
     await expect(page).toHaveScreenshot({ maxDiffPixelRatio: 0.05 });
   });
 
-  test('6.1 Ignore the logo', async ({ page }) => {
+  test('6.1 Ignore the logo using css', async ({ page }) => {
     await expect(page.getByText('Combination pliers')).toBeVisible();
 
     // Do a visual comparision and allow 5 % of pixels to differ
     await expect(page).toHaveScreenshot({
       stylePath: path.resolve(__dirname, '../screenshots/style.css'),
+      maxDiffPixelRatio: 0.05,
+    });
+  });
+
+  test('6.1 Ignore the logo using mask', async ({ page }) => {
+    await expect(page.getByText('Combination pliers')).toBeVisible();
+
+    // Do a visual comparision and allow 5 % of pixels to differ
+    await expect(page).toHaveScreenshot({
+      mask: [page.locator('a.navbar-brand')],
       maxDiffPixelRatio: 0.05,
     });
   });
